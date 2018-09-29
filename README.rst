@@ -6,7 +6,9 @@ A minimal CLI tool for Provisionning Digital Ocean Droplets
 Pre-requisites
 ------
 
-Set you Digital Ocean Token as an environment variable **DO_TOKEN**
+- Pipenv Installed 
+- make install
+- Set you Digital Ocean Token as an environment variable **DO_TOKEN**
 
 Installation 
 ------
