@@ -14,7 +14,7 @@ setup(
     packages=find_packages('src'),
     package_dir={'':'src'},
     setup_requires=[],
-    install_requires=[""],
+    install_requires=["python-digitalocean"],
     entry_points={
         'console_scripts': [
             'dopr=dopr.cli:main'],
