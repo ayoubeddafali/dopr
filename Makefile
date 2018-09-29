@@ -3,7 +3,7 @@
 default: test
 
 install:
-	pipenv install --dev --skip-lock
+	pipenv install 
 
 test:
 #	PYTHONPATH=./src pipenv run pytest
