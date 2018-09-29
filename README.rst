@@ -53,7 +53,7 @@ Running Tests
 Python Support 
 ---------------
 
-> Tested With Python3, It may work with Python2 if you're lucky :grinning:
+- Tested With Python3, It may work with Python2 if you're lucky :grinning:
 
 
 
