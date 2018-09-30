@@ -18,9 +18,12 @@ def create_parser():
         nargs=3,
         metavar=("INSTANCE_NUMBER", "INSTANCE_TYPE", "INSTANCE_SIZE"),
         action=CreateAction)
+    parser.add_argument("-p", "--packages", help="Packages to install", 
+        nargs='+')
 
     group.add_argument("--clean", help="Remove all resources", action="store_true")
     group.add_argument("--list", help="List all resources", action="store_true")
+    group.add_argument("--status", help="Check status", action="store_true")
 
     return parser
 
@@ -30,11 +33,13 @@ def main():
     args = vars(parser.parse_args())
     # print(args)     
     if "instance_number" in args:
-        actions.create(args['instance_type'], args['instance_number'], args['instance_size'])
+        actions.create(args['instance_type'], args['instance_number'], args['instance_size'], args['packages'])
     elif args["list"]:
         actions.list()
     elif args["clean"]:
         actions.clean()
+    elif args["status"]:
+        actions.status()
     else:
         parser.print_help()
 

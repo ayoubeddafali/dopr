@@ -1,10 +1,21 @@
 import digitalocean
-import os
-import os, sys, subprocess, random
+import os, sys, subprocess, random, time
 
 TOKEN = os.getenv("DO_TOKEN")
 manager = digitalocean.Manager(token=TOKEN)
 
+def install(packages, ips, itype):
+    print("Installing {} packages : {}".format(len(packages), packages ))
+    time.sleep(10)
+    for droplet in ips: 
+        CMD = "ssh -o 'StrictHostKeyChecking no' root@{} 'sudo apt-get install -y'".format(ip)  if itype == "ubuntu" else "ssh -o 'StrictHostKeyChecking no' root@{} 'sudo yum install -y'".format(ip)
+        for p in packages:
+            print("=> Installing {}".format(p))
+            try:
+                subprocess.call("{} {}".format(CMD, p), shell=True)    
+            except Exception as e :
+                print("Error install package {}".format(p))
+                print(e)
 
 def clean():
     my_droplets = manager.get_all_droplets()
@@ -26,8 +37,16 @@ def list():
     for droplet in my_droplets:
         print("{} : {}".format(droplet.name, droplet.ip_address))
     
+def status():
+    print("=> Checking Status")
+    my_droplets = manager.get_all_droplets()
+    if len(my_droplets) > 0:
+        for droplet in my_droplets:
+            print("{} [{}] : {}".format(droplet.name, droplet.ip_address,  droplet.status))
+    else: 
+        print("No droplets has been found")
 
-def create(itype="centos", inumber=1, isize="s-1vcpu-1gb"):
+def create(itype="centos", inumber=1, isize="s-1vcpu-1gb", packages=[]):
     print("=> Provisionning ....")
     manager = digitalocean.Manager(token=TOKEN)
     keys = manager.get_all_sshkeys()
@@ -49,17 +68,25 @@ def create(itype="centos", inumber=1, isize="s-1vcpu-1gb"):
         d.create()
 
     my_droplets = manager.get_all_droplets()
-    print("=> {} machine(s) has been created : ".format(len(my_droplets)))
+    print("=> {} machine(s) has been created.".format(len(my_droplets)))
     seen = []
+    print("=> Waiting for Instances to be active...")
     while len(seen) != len(my_droplets) :
-
         for droplet in my_droplets:
             if droplet.name in seen:
                 continue
-            else :
-                if droplet.status == "active":
-                    seen.append(droplet.name)
-                    print(" - {} : {}".format(droplet.name, droplet.ip_address))
+            elif droplet.status == "active":
+                    seen.append({"name": droplet.name, "ip": droplet.ip_address})
         my_droplets = manager.get_all_droplets()
+        
+    print("All this Instance are in actif state :")
+
+    for d in seen:
+        print(" - {} : {}".format(d["name"], d["ip"]))
+        time.sleep(0.5)
+    
+    droplets_ips = map(lambda d: d.ip_address ,my_droplets)
+    if ( packages and ( len(packages) > 0 )  ):
+        install(packages, droplets_ips, itype)
 
 
