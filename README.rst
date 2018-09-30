@@ -1,4 +1,4 @@
-Dopr 
+Dopr
 ========
 
 A minimal CLI tool for Provisionning Digital Ocean Droplets
@@ -6,42 +6,54 @@ A minimal CLI tool for Provisionning Digital Ocean Droplets
 Pre-requisites
 ------
 
-- Pipenv Installed 
+- Pipenv Installed
 - Set you Digital Ocean Token as an environment variable **DO_TOKEN**
 
-Installation 
+Installation
 ------
 
 ::
 
     $ make install
-    $ python setup.py bdist_wheel 
+    $ python setup.py bdist_wheel
     $ pip install -I dist/dopr-0.1.0-py2.py3-none-any.whl
 
 Usage
 ------
 
-List Droplets : 
+List Droplets :
 
 ::
 
-    $ dopr --list 
+    $ dopr --list
 
 
-Destroy All droplets 
+Destroy All droplets
 
 ::
 
     $ dopr --clean
 
-    
-Create Droplets : 
+
+Create Droplets :
 
 ::
 
-    $ dopr -c 1 centos s-1vcpu-1gb 
- 
+    $ dopr -c 1 centos s-1vcpu-1gb
 
+
+Create Droplets and Install some packages :
+
+::
+
+    $ dopr -c 1 centos s-1vcpu-1gb -p python,vim
+
+
+Droplets Status :
+
+::
+
+    $ dopr --status
 
 
 Running Tests
@@ -52,7 +64,7 @@ Running Tests
     $ make
 
 
-Python Support 
+Python Support
 ---------------
 
 - Tested With Python3, It may work with Python2 if you're lucky :grinning:
