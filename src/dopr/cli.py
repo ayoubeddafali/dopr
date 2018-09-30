@@ -20,6 +20,8 @@ def create_parser():
         action=CreateAction)
     parser.add_argument("-p", "--packages", help="Packages to install", 
         nargs='+')
+    
+    parser.add_argument("-w ", "--with-inventory", help="Create an Ansible Inventory file", nargs='+')
 
     group.add_argument("--clean", help="Remove all resources", action="store_true")
     group.add_argument("--list", help="List all resources", action="store_true")
@@ -33,7 +35,7 @@ def main():
     args = vars(parser.parse_args())
     # print(args)     
     if "instance_number" in args:
-        actions.create(args['instance_type'], args['instance_number'], args['instance_size'], args['packages'])
+        actions.create(args['instance_type'], args['instance_number'], args['instance_size'], args['packages'], args["with_inventory"])
     elif args["list"]:
         actions.list()
     elif args["clean"]:

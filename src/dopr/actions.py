@@ -6,9 +6,9 @@ manager = digitalocean.Manager(token=TOKEN)
 
 def install(packages, ips, itype):
     print("Installing {} packages : {}".format(len(packages), packages ))
-    time.sleep(10)
+    time.sleep(30)
     for droplet in ips: 
-        CMD = "ssh -o 'StrictHostKeyChecking no' root@{} 'sudo apt-get install -y'".format(ip)  if itype == "ubuntu" else "ssh -o 'StrictHostKeyChecking no' root@{} 'sudo yum install -y'".format(ip)
+        CMD = "ssh -o 'StrictHostKeyChecking no' root@{} 'sudo apt-get install -y'".format(droplet)  if itype == "ubuntu" else "ssh -o 'StrictHostKeyChecking no' root@{} 'sudo yum install -y'".format(ip)
         for p in packages:
             print("=> Installing {}".format(p))
             try:
@@ -46,7 +46,7 @@ def status():
     else: 
         print("No droplets has been found")
 
-def create(itype="centos", inumber=1, isize="s-1vcpu-1gb", packages=[]):
+def create(itype="centos", inumber=1, isize="s-1vcpu-1gb", packages=[], inventory=[]):
     print("=> Provisionning ....")
     manager = digitalocean.Manager(token=TOKEN)
     keys = manager.get_all_sshkeys()
@@ -85,8 +85,13 @@ def create(itype="centos", inumber=1, isize="s-1vcpu-1gb", packages=[]):
         print(" - {} : {}".format(d["name"], d["ip"]))
         time.sleep(0.5)
     
-    droplets_ips = map(lambda d: d.ip_address ,my_droplets)
+    droplets_ips = map(lambda d: d.ip_address , my_droplets)
     if ( packages and ( len(packages) > 0 )  ):
         install(packages, droplets_ips, itype)
-
-
+    
+    if (len(inventory)) > 0:
+        f =  open("inventory", "w")
+        for i, host in enumerate(inventory):
+            f.write("\n[{}]\n{}".format(host, seen[i]["ip"]))
+        f.close()
+            
