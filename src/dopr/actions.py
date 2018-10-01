@@ -89,7 +89,7 @@ def create(itype="centos", inumber=1, isize="s-1vcpu-1gb", packages=[], inventor
     if ( packages and ( len(packages) > 0 )  ):
         install(packages, droplets_ips, itype)
     
-    if (len(inventory)) > 0:
+    if ( inventory & ( len(inventory)) > 0 ) :
         f =  open("inventory", "w")
         for i, host in enumerate(inventory):
             f.write("\n[{}]\n{}".format(host, seen[i]["ip"]))
