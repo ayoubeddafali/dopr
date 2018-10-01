@@ -73,10 +73,10 @@ def create(itype="centos", inumber=1, isize="s-1vcpu-1gb", packages=[], inventor
     print("=> Waiting for Instances to be active...")
     while len(seen) != len(my_droplets) :
         for droplet in my_droplets:
-            if droplet.name in seen:
+            if droplet.name in [ n["name"] for n in seen]:
                 continue
             elif droplet.status == "active":
-                    seen.append({"name": droplet.name, "ip": droplet.ip_address})
+                seen.append({"name": droplet.name, "ip": droplet.ip_address})
         my_droplets = manager.get_all_droplets()
         
     print("All this Instance are in actif state :")
@@ -89,7 +89,7 @@ def create(itype="centos", inumber=1, isize="s-1vcpu-1gb", packages=[], inventor
     if ( packages and ( len(packages) > 0 )  ):
         install(packages, droplets_ips, itype)
     
-    if ( inventory & ( len(inventory)) > 0 ) :
+    if ( inventory and ( len(inventory) > 0 )  ) :
         f =  open("inventory", "w")
         for i, host in enumerate(inventory):
             f.write("\n[{}]\n{}".format(host, seen[i]["ip"]))

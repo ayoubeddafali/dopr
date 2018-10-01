@@ -48,6 +48,12 @@ Create Droplets and Install some packages :
 
     $ dopr -c 1 centos s-1vcpu-1gb -p python,vim
 
+Create Droplets with an Ansible inventory 
+
+::
+
+    $ dopr -c 3 ubuntu s-1vcpu-1gb --with-inventory app,db,redis
+
 
 Droplets Status :
 
@@ -62,6 +68,11 @@ Running Tests
 ::
 
     $ make
+
+Demo
+-------------
+
+### https://asciinema.org/a/XqeHVAkTuPRM5CHBqqHQLuJK7
 
 
 Python Support
