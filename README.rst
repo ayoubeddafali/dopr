@@ -60,7 +60,8 @@ Create Droplets with an Ansible inventory
 
 ::
 
-    $ dopr -c 3 ubuntu s-1vcpu-1gb --with-inventory app db redis # an inventory file will be created for the 3 instances
+    $ dopr -c 3 ubuntu s-1vcpu-1gb --with-inventory app db redis
+    # an inventory file will be created for the 3 instances, each instance with each label, eg: [app]
 
 
 Droplets Status :
