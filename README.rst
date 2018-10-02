@@ -28,11 +28,19 @@ List Droplets :
     $ dopr --list
 
 
-Destroy All droplets
+Destroy All droplets & domains
 
 ::
 
     $ dopr --clean
+
+Destroy Specific Resource
+
+::
+
+    $ dopr -d droplets
+    $ dopr -d domains
+
 
 
 Create Droplets :
@@ -46,13 +54,13 @@ Create Droplets and Install some packages :
 
 ::
 
-    $ dopr -c 1 centos s-1vcpu-1gb -p python,vim
+    $ dopr -c 1 centos s-1vcpu-1gb -p python vim
 
-Create Droplets with an Ansible inventory 
+Create Droplets with an Ansible inventory
 
 ::
 
-    $ dopr -c 3 ubuntu s-1vcpu-1gb --with-inventory app,db,redis
+    $ dopr -c 3 ubuntu s-1vcpu-1gb --with-inventory app db redis # an inventory file will be created for the 3 instances
 
 
 Droplets Status :
@@ -62,17 +70,12 @@ Droplets Status :
     $ dopr --status
 
 
-Running Tests
--------------
+Add Domains & Subdomains :
 
 ::
 
-    $ make
+    $ dopr -a 1.1.1.1 domain.com sub1 sub2  # domain.com will be created, and also sub1.domain.com / sub2.domain.com
 
-Demo
--------------
-
-### https://asciinema.org/a/XqeHVAkTuPRM5CHBqqHQLuJK7
 
 
 Python Support
