@@ -74,7 +74,8 @@ Add Domains & Subdomains :
 
 ::
 
-    $ dopr -a 1.1.1.1 domain.com sub1 sub2  # domain.com will be created, and also sub1.domain.com / sub2.domain.com
+    $ dopr -a 1.1.1.1 domain.com sub1 sub2
+    # domain.com will be created for IP 1.1.1.1, and also sub1.domain.com / sub2.domain.com
 
 
 
