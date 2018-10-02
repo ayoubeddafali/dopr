@@ -14,7 +14,7 @@ Installation
 
 ::
 
-    $ make install
+    $ pipenv install
     $ python setup.py bdist_wheel
     $ pip install -I dist/dopr-0.1.0-py2.py3-none-any.whl
 
