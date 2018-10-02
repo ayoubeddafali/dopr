@@ -81,7 +81,7 @@ Add Domains & Subdomains :
 Python Support
 ---------------
 
-- Tested With Python3, It may work with Python2 if you're lucky :grinning:
+- Python 2 & 3  :grinning:
 
 
 
