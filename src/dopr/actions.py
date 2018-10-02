@@ -17,19 +17,6 @@ def install(packages, ips, itype):
                 print("Error install package {}".format(p))
                 print(e)
 
-def clean():
-    my_droplets = manager.get_all_droplets()
-    for droplet in my_droplets:
-        droplet.destroy()
-
-    print("=> Destroying All Droplets")
-
-    my_domains = manager.get_all_domains()
-    for domain in my_domains:
-        domain.destroy()
-
-    print("=> Deleting All Domains")
-
 def list():
     print("=> Listing resources :")
     my_droplets = manager.get_all_droplets()
@@ -45,6 +32,46 @@ def status():
             print("{} [{}] : {}".format(droplet.name, droplet.ip_address,  droplet.status))
     else: 
         print("No droplets has been found")
+
+def create_domains(domains):
+    ip = domains[0]
+    domain_name = domains[1]
+    sub_domains = domains[2:]
+
+    domain = digitalocean.Domain(token=TOKEN)
+    domain.name = domain_name 
+    domain.ip_address = ip
+    try:
+        d = domain.create()
+    except Exception as e:
+        print(e)
+
+    print("=> {} domain has been created : ".format(domain_name))
+
+    if (sub_domains and len(sub_domains) > 0):
+        for sub in sub_domains:
+            domain.create_new_domain_record(type="A", name=sub, data=ip)
+            print("\t- {}.{} domain has been created. ".format(sub, domain))
+
+def remove_resource(resource_type):
+    if resource_type.lower() == "droplets" or resource_type.lower() == "droplet" :
+        print("=> Destroying All Droplets")
+        my_droplets = manager.get_all_droplets()
+        for droplet in my_droplets:
+            droplet.destroy()
+    elif resource_type.lower() == "domains" or resource_type.lower() == "domain":
+        print("=> Deleting All Domains")
+        my_domains = manager.get_all_domains()
+        for domain in my_domains:
+            domain.destroy()
+    else : 
+        print("Invalid Resource '{}'".format(resource_type))
+
+def clean():
+    print("=> Destroying All Droplets")
+    remove_resource("droplets")
+    print("=> Deleting All Domains")
+    remove_resource("domains")
 
 def create(itype="centos", inumber=1, isize="s-1vcpu-1gb", packages=[], inventory=[]):
     print("=> Provisionning ....")
