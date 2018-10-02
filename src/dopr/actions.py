@@ -7,12 +7,12 @@ manager = digitalocean.Manager(token=TOKEN)
 def install(packages, ips, itype):
     print("Installing {} packages : {}".format(len(packages), packages ))
     time.sleep(30)
-    for droplet in ips: 
+    for droplet in ips:
         CMD = "ssh -o 'StrictHostKeyChecking no' root@{} 'sudo apt-get install -y'".format(droplet)  if itype == "ubuntu" else "ssh -o 'StrictHostKeyChecking no' root@{} 'sudo yum install -y'".format(ip)
         for p in packages:
             print("=> Installing {}".format(p))
             try:
-                subprocess.call("{} {}".format(CMD, p), shell=True)    
+                subprocess.call("{} {}".format(CMD, p), shell=True)
             except Exception as e :
                 print("Error install package {}".format(p))
                 print(e)
@@ -23,14 +23,14 @@ def list():
     print("\t {} found resources".format(len(my_droplets)))
     for droplet in my_droplets:
         print("{} : {}".format(droplet.name, droplet.ip_address))
-    
+
 def status():
     print("=> Checking Status")
     my_droplets = manager.get_all_droplets()
     if len(my_droplets) > 0:
         for droplet in my_droplets:
             print("{} [{}] : {}".format(droplet.name, droplet.ip_address,  droplet.status))
-    else: 
+    else:
         print("No droplets has been found")
 
 def create_domains(domains):
@@ -39,7 +39,7 @@ def create_domains(domains):
     sub_domains = domains[2:]
 
     domain = digitalocean.Domain(token=TOKEN)
-    domain.name = domain_name 
+    domain.name = domain_name
     domain.ip_address = ip
     try:
         d = domain.create()
@@ -64,13 +64,11 @@ def remove_resource(resource_type):
         my_domains = manager.get_all_domains()
         for domain in my_domains:
             domain.destroy()
-    else : 
+    else :
         print("Invalid Resource '{}'".format(resource_type))
 
 def clean():
-    print("=> Destroying All Droplets")
     remove_resource("droplets")
-    print("=> Deleting All Domains")
     remove_resource("domains")
 
 def create(itype="centos", inumber=1, isize="s-1vcpu-1gb", packages=[], inventory=[]):
@@ -105,20 +103,20 @@ def create(itype="centos", inumber=1, isize="s-1vcpu-1gb", packages=[], inventor
             elif droplet.status == "active":
                 seen.append({"name": droplet.name, "ip": droplet.ip_address})
         my_droplets = manager.get_all_droplets()
-        
+
     print("All this Instance are in actif state :")
 
     for d in seen:
         print(" - {} : {}".format(d["name"], d["ip"]))
         time.sleep(0.5)
-    
+
     droplets_ips = map(lambda d: d.ip_address , my_droplets)
     if ( packages and ( len(packages) > 0 )  ):
         install(packages, droplets_ips, itype)
-    
+
     if ( inventory and ( len(inventory) > 0 )  ) :
         f =  open("inventory", "w")
         for i, host in enumerate(inventory):
             f.write("\n[{}]\n{}".format(host, seen[i]["ip"]))
         f.close()
-            
+

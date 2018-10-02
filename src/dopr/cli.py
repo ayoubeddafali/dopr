@@ -2,7 +2,7 @@ import argparse, sys
 
 class CreateAction(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None):
-        inumber, itype, isize = values 
+        inumber, itype, isize = values
         namespace.instance_number = inumber
         namespace.instance_type = itype
         namespace.instance_size = isize
@@ -25,21 +25,21 @@ def create_parser():
         action=CreateAction)
 
     parser.add_argument("-p", "--packages", help="Packages to install", nargs='+')
-    parser.add_argument("-w ", "--with-inventory", help="Create an Ansible Inventory file", nargs='+')
-    group.add_argument("-d", "--add-domains", nargs='+', help='Create domain & subdomains' )
+    parser.add_argument("-w", "--with-inventory", help="Create an Ansible Inventory file", nargs='+')
+    group.add_argument("-a", "--add-domains", nargs='+' , help='Create domain & subdomains' )
     group.add_argument("--clean", help="Remove all resources", action="store_true")
-    group.add_argument("--clean", nargs=1, metavar="RESOURCE_TYPE", help="Remove Specific Resource")
-    group.add_argument("--list", help="List all resources", action="store_true")
-    group.add_argument("--status", help="Check status", action="store_true")
+    group.add_argument("-d", "--destroy", nargs=1, metavar=("RESOURCE_TYPE"), action=RemoveAction, help="Remove Specific Resource")
+    group.add_argument("-l", "--list", help="List all resources", action="store_true")
+    group.add_argument("-s", "--status", help="Check status", action="store_true")
 
     return parser
 
 def main():
-    from dopr import actions 
+    from dopr import actions
     parser = create_parser()
     args = vars(parser.parse_args())
-    print(args)    
-    sys.exit(0) 
+    #print(args)
+    #sys.exit(0)
     if "instance_number" in args:
         actions.create(args['instance_type'], args['instance_number'], args['instance_size'], args['packages'], args["with_inventory"])
     elif "resource_type" in args:
