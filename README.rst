@@ -1,13 +1,13 @@
 Dopr
 ========
 
-A minimal CLI tool for Provisionning Digital Ocean Droplets
+A minimal CLI tool for Provisionning Digital Ocean Droplets, and Creating Domains/Subdomains.
 
 Pre-requisites
 ------
 
 - Pipenv Installed
-- Set you Digital Ocean Token as an environment variable **DO_TOKEN**
+- Set your Digital Ocean Token as an environment variable **DO_TOKEN**
 
 Installation
 ------
@@ -25,7 +25,7 @@ List Droplets :
 
 ::
 
-    $ dopr --list
+    $ dopr -l
 
 
 Destroy All droplets & domains
@@ -68,7 +68,7 @@ Droplets Status :
 
 ::
 
-    $ dopr --status
+    $ dopr -s
 
 
 Add Domains & Subdomains :
