@@ -6,7 +6,6 @@ A minimal CLI tool for Provisionning Digital Ocean Droplets, and Creating Domain
 Pre-requisites
 ------
 
-- Pipenv Installed
 - Set your Digital Ocean Token as an environment variable **DO_TOKEN**
 
 Installation
