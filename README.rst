@@ -10,7 +10,15 @@ Pre-requisites
 - Set your Digital Ocean Token as an environment variable **DO_TOKEN**
 
 Installation
+
+:: 
+
+    $ pip install python-digitalocean 
+    $ pip install --index-url  https://test.pypi.org/simple/ dopr
+
 ------
+
+OR 
 
 ::
 
